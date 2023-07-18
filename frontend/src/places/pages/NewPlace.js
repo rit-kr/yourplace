@@ -1,4 +1,4 @@
-import './NewPlace.css'
+import './PlaceForm.css'
 import react, { useCallback, useReducer } from 'react';
 import Input from '../../shared/components/FormElements/Input';
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH, VALIDATOR_MAXLENGTH } from '../../shared/util/Validators';
@@ -40,6 +40,10 @@ function NewPlace() {
       description:{
         value:"",
         isValid:false
+      },
+      address:{
+        value:"",
+        isValid:false
       }
     },
     isValid:false
@@ -53,10 +57,14 @@ function NewPlace() {
     });
   }, []);
 
+const placeSubmitHandler = event => {
+  event.preventDefault();
+
+}
 
   return (
     <>
-       <form className='place-form'>
+       <form className='place-form' onSubmit={placeSubmitHandler}>
         <Input 
         id="title"
         element="input" 
@@ -73,6 +81,15 @@ function NewPlace() {
         label="discription"
         validator={[VALIDATOR_MAXLENGTH(5)]}
         errorText="Please enter a valid  discription(5 char)"
+        onInput={inputHandler}
+        />
+
+        <Input 
+        id="address"
+        element="input" 
+        label="address"
+        validator={[VALIDATOR_REQUIRE()]}
+        errorText="Please enter a valid title"
         onInput={inputHandler}
         />
         <Button type="submit" disabled={!formState.isValid}>ADD PLACE</Button>
