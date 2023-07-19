@@ -7,9 +7,25 @@ import Modal from '../../shared/components/UIElements/Modal';
 
 function PlaceItem(props) {
   const [showMap, setShowMap] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const openMapHandler = () => setShowMap(true);
   const closeMapHandler = () => setShowMap(false);
+
+  const showDeleteWarningHandler =() => {
+    setShowConfirmModal(true);
+    console.log(showConfirmModal);
+  }
+
+  const cancelDeleteHandler =() => {
+    setShowConfirmModal(false);
+  }
+
+  const confirmDeleteHandler =() => {
+    console.log("deleted");
+    setShowConfirmModal(false);
+
+  }
 
   return (
     <>
@@ -25,6 +41,20 @@ function PlaceItem(props) {
         <h2>THE MAP!</h2>
       </div>
     </Modal>
+
+    <Modal
+      show={showConfirmModal}
+      onCancel={cancelDeleteHandler} 
+      header="Are you sure?" footerClass="place-item__modal-actions" 
+      footer={
+      <>
+        <Button inverse onClick={cancelDeleteHandler}>CANCEL</Button>
+        <Button danger onClick={confirmDeleteHandler}>DELETE</Button>
+      </>
+    }>
+      <p>Do you want to proceed and delete this place?</p>
+    </Modal>
+    
     <li className='place-item'>
       <Card className='place-item-content'>
         <div className="place-item__image">
@@ -38,7 +68,7 @@ function PlaceItem(props) {
           <div>
             <Button inverse onClick={openMapHandler}>View ON MAP</Button>
             <Button to={`/places/${props.id}`}>Edit</Button>
-            <Button danger>Delete</Button>
+            <Button danger onClick={showDeleteWarningHandler}>Delete</Button>
           </div>
           </Card>
     </li>

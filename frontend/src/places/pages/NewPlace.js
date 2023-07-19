@@ -1,8 +1,9 @@
 import './PlaceForm.css'
-import react, { useCallback, useReducer } from 'react';
+import react from 'react';
 import Input from '../../shared/components/FormElements/Input';
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH, VALIDATOR_MAXLENGTH } from '../../shared/util/Validators';
 import Button from '../../shared/components/FormElements/Button';
+import { useForm } from '../../shared/hooks/form-hook';
 
 const formReducer = (state, action) => {
   switch(action.type){
@@ -31,31 +32,21 @@ const formReducer = (state, action) => {
 
 function NewPlace() {
 
-  const [formState, dispatch] = useReducer(formReducer, {
-    Input:{
-      title:{
-        value:"",
-        isValid:false
-      },
-      description:{
-        value:"",
-        isValid:false
-      },
-      address:{
-        value:"",
-        isValid:false
-      }
+  const [formState, inputHandler] = useForm({
+    title:{
+      value:"",
+      isValid:false
     },
-    isValid:false
-  })
-  const inputHandler = useCallback((id, value, isValid) => {
-    dispatch({
-      type:'INPUT_CHANGE',
-      value:value,
-      isValid:isValid,
-      inputId:id
-    });
-  }, []);
+    description:{
+      value:"",
+      isValid:false
+    },
+    address:{
+      value:"",
+      isValid:false
+    }
+  },false)
+
 
 const placeSubmitHandler = event => {
   event.preventDefault();
